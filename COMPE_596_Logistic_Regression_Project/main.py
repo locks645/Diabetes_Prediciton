@@ -16,7 +16,7 @@ def main():
 
     # split data into x_df and y_df DataFrames
     # excluding 4th col 'SkinThickness'
-    x_df = df.iloc[:,[0,1,2,4,5,6,7]]
+    x_df = df.iloc[:,[0,1,2,3,4,5,6,7]]
     y_df = df.iloc[:,[8]]
 
     # print first few rows of x_df and y_df
@@ -29,7 +29,7 @@ def main():
     # standardize/centralize x_df and convert back into DataFrame
     std = StandardScaler()
     x_df_col_labels = ['Pregnancies', 'Glucose', 'BloodPressure',
-                       'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
+                       'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
     x_df = pd.DataFrame(std.fit_transform(x_df), columns=x_df_col_labels)
 
     # print first few rows of standardized/centralized x_df
@@ -42,8 +42,8 @@ def main():
                                                         train_size=0.7, test_size=0.3, random_state=100)
 
     # create logistic regression model using training sets
-    log_reg_model = SGDClassifier(loss='log_loss', alpha=0.005,
-                                  random_state=100).fit(x_train, np.ravel(y_train))
+    log_reg_model = SGDClassifier(loss='log_loss',
+                                  alpha=0.005, random_state=100).fit(x_train, np.ravel(y_train))
 
     # get training and testing set predictions with model
     y_train_pred = log_reg_model.predict(x_train)
